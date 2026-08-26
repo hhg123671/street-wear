@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streetwear - متجر ملابس رجالي</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="Brown White Illustration Chinese Food Logo.png" type="image/x-png">
+</head>
+<body>
+
+    <header>
+        <div class="logo" style="cursor: pointer;">STREETWEAR</div>
+        <nav>
+            <ul>
+                <li><a href="#">الرئيسية</a></li>
+                <li><a href="#products">المنتجات</a></li>
+                <li><a href="#offers">العروض</a></li>
+                <li><a href="#">تواصل معنا</a></li>
+            </ul>
+        </nav>
+        <div class="cart-icon" onclick="toggleCart()">
+            السلة (<span id="cart-count">0</span>)
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>أحدث صيحات الملابس الرجالية</h1>
+        <p>اكتشف تشكيلة Streetwear الجديدة بأعلى جودة وأفضل سعر.</p>
+        <button class="btn-shop" onclick="location.href='#products'">تسوق الآن</button>
+    </section>
+
+    <!-- قسم العروض والخصومات -->
+    <section class="container" id="offers">
+        <h2 class="section-title">🔥 أقوى العروض والخصومات</h2>
+        <div class="products-grid">
+            
+            <div class="product-card offer-card">
+                <div class="img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?w=500" alt="كوتشي سنيكرز">
+                </div>
+                <h3 class="product-title">كوتشي سنيكرز سبورت</h3>
+                <div class="product-price">
+                    <span style="text-decoration: line-through; color: #888; margin-left: 8px;">1100 ج.م</span> 825 ج.م
+                </div>
+                <button class="btn-buy" 
+                        data-title="كوتشي سنيكرز سبورت" 
+                        data-price="825" 
+                        data-image="https://images.unsplash.com/photo-1552346154-21d32810aba3?w=500"
+                        data-colors="أبيض في احمر,أسود في بني"
+                        data-images="https://images.unsplash.com/photo-1552346154-21d32810aba3?w=500,https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500"
+                        data-sizes="41,42,43,44,45"
+                        onclick="openProductModalFromElement(this)">شراء العرض</button>
+            </div>
+
+            <div class="product-card offer-card">
+                <div class="img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500" alt="كاب ستريت وير">
+                </div>
+                <h3 class="product-title">كاب ستريت وير كلاسيك</h3>
+                <div class="product-price">
+                    <span style="text-decoration: line-through; color: #888; margin-left: 8px;">150 ج.م</span> 80 ج.م
+                </div>
+                <button class="btn-buy" 
+                        data-title="كاب ستريت وير كلاسيك" 
+                        data-price="80" 
+                        data-image="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500"
+                        data-colors="ابيض"
+                        data-sizes="One Size"
+                        onclick="openProductModalFromElement(this)">شراء العرض</button>
+            </div>
+
+            <div class="product-card offer-card">
+                <div class="img-wrapper">
+                    <img src="https://i.pinimg.com/736x/62/14/cd/6214cd21f7398385043cb24c0d26e420.jpg" alt="بنطال جينز واسع">
+                </div>
+                <h3 class="product-title">بنطال جينز واسع (Wide Leg)</h3>
+                <div class="product-price">
+                    <span style="text-decoration: line-through; color: #888; margin-left: 8px;">600 ج.م</span> 430 ج.م
+                </div>
+                <button class="btn-buy" 
+                        data-title="بنطال جينز واسع (Wide Leg)" 
+                        data-price="430" 
+                        data-image="https://i.pinimg.com/736x/62/14/cd/6214cd21f7398385043cb24c0d26e420.jpg"
+                        data-colors="أزرق فاتح,أزرق داكن"
+                        data-images="https://i.pinimg.com/736x/62/14/cd/6214cd21f7398385043cb24c0d26e420.jpg"
+                        data-sizes="30,32,34,36"
+                        onclick="openProductModalFromElement(this)">شراء العرض</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- جميع المنتجات -->
+    <main class="container" id="products">
+        <h2 class="section-title">أحدث المنتجات</h2>
+        <div class="products-grid">
+            
+            <div class="product-card">
+                <div class="img-wrapper">
+                    <img src="https://i.pinimg.com/736x/f1/68/54/f16854a84c1cf1abedeccc6d6e576078.jpg" alt="تيشيرت أوفر سايز">
+                </div>
+                <h3 class="product-title">تيشيرت أوفر سايز</h3>
+                <div class="product-price">350 ج.م</div>
+                <button class="btn-buy" 
+                        data-title="تيشيرت أوفر سايز" 
+                        data-price="350" 
+                        data-image="https://i.pinimg.com/736x/f1/68/54/f16854a84c1cf1abedeccc6d6e576078.jpg"
+                        data-colors="أسود,أبيض,رمادي"
+                        data-images="https://i.pinimg.com/736x/f1/68/54/f16854a84c1cf1abedeccc6d6e576078.jpg,https://i.pinimg.com/736x/7e/87/93/7e87934a984fcc4115474ea5521f3ef7.jpg,https://i.pinimg.com/736x/47/83/06/478306ba7cebd41da786c872adc64f50.jpg"
+                        data-sizes="M,L,XL"
+                        onclick="openProductModalFromElement(this)">شراء</button>
+            </div>
+
+            <div class="product-card">
+                <div class="img-wrapper">
+                    <img src="https://i.pinimg.com/736x/fe/c4/21/fec4211771b904358d416fe5df439f0d.jpg" alt="بنطال كارجو">
+                </div>
+                <h3 class="product-title">بنطال كارجو</h3>
+                <div class="product-price">500 ج.م</div>
+                <button class="btn-buy" 
+                        data-title="بنطال كارجو" 
+                        data-price="500" 
+                        data-image="https://i.pinimg.com/736x/fe/c4/21/fec4211771b904358d416fe5df439f0d.jpg"
+                        data-colors="أسود,زيتي"
+                        data-images="https://i.pinimg.com/736x/fe/c4/21/fec4211771b904358d416fe5df439f0d.jpg,https://i.pinimg.com/736x/87/48/d6/8748d6729552466927743159aae3fc46.jpg"
+                        data-sizes="30,32,34"
+                        onclick="openProductModalFromElement(this)">شراء</button>
+            </div>
+
+            <div class="product-card">
+                <div class="img-wrapper">
+                    <img src="https://i.pinimg.com/736x/65/af/5b/65af5b9622801674770d5d4a783ff7ae.jpg" alt="جاكيت هودي">
+                </div>
+                <h3 class="product-title">جاكيت هودي</h3>
+                <div class="product-price">650 ج.م</div>
+                <button class="btn-buy" 
+                        data-title="جاكيت هودي" 
+                        data-price="650" 
+                        data-image="https://i.pinimg.com/736x/65/af/5b/65af5b9622801674770d5d4a783ff7ae.jpg"
+                        data-colors="كحلي,اسود"
+                        data-images="https://i.pinimg.com/1200x/f9/4b/16/f94b16a9bc4bcc717ef04de07d11448a.jpg"
+                        data-sizes="L,XL,XXL"
+                        onclick="openProductModalFromElement(this)">شراء</button>
+            </div>
+
+            <div class="product-card">
+                <div class="img-wrapper">
+                    <img src="https://i.pinimg.com/736x/80/ae/7a/80ae7af894fe767bb29c0143dc91d69f.jpg" alt="كوتشي أبيض">
+                </div>
+                <h3 class="product-title">كوتشي أبيض nice</h3>
+                <div class="product-price">750 ج.م</div>
+                <button class="btn-buy" 
+                        data-title="كوتشي أبيض Urbane" 
+                        data-price="750" 
+                        data-image="https://i.pinimg.com/736x/80/ae/7a/80ae7af894fe767bb29c0143dc91d69f.jpg"
+                        data-colors="أبيض"
+                        data-images="https://i.pinimg.com/736x/80/ae/7a/80ae7af894fe767bb29c0143dc91d69f.jpg"
+                        data-sizes="40,41,42,43,44"
+                        onclick="openProductModalFromElement(this)">شراء</button>
+            </div>
+
+            <div class="product-card">
+                <div class="img-wrapper">
+                    <img src="https://i.pinimg.com/1200x/a0/53/7e/a0537eadf1e51cc9ddab02a4934a700f.jpg" alt="قميص مشجر">
+                </div>
+                <h3 class="product-title">قميص هاوايان أوف وايت</h3>
+                <div class="product-price">420 ج.م</div>
+                <button class="btn-buy" 
+                        data-title="قميص هاوايان أوف وايت" 
+                        data-price="420" 
+                        data-image="https://i.pinimg.com/1200x/a0/53/7e/a0537eadf1e51cc9ddab02a4934a700f.jpg"
+                        data-colors="أوف وايت"
+                        data-images="https://i.pinimg.com/1200x/a0/53/7e/a0537eadf1e51cc9ddab02a4934a700f.jpg"
+                        data-sizes="M,L,XL"
+                        onclick="openProductModalFromElement(this)">شراء</button>
+            </div>
+
+            <div class="product-card">
+                <div class="img-wrapper">
+                    <img src="https://i.pinimg.com/1200x/05/02/c9/0502c919daec1ac221d2967d51b0e0b8.jpg" alt="كوتشي أسود">
+                </div>
+                <h3 class="product-title">كوتشي أسود سبورت</h3>
+                <div class="product-price">800 ج.م</div>
+                <button class="btn-buy" 
+                        data-title="كوتشي أسود سبورت" 
+                        data-price="800" 
+                        data-image="https://i.pinimg.com/1200x/05/02/c9/0502c919daec1ac221d2967d51b0e0b8.jpg"
+                        data-colors="أسود"
+                        data-images="https://i.pinimg.com/1200x/05/02/c9/0502c919daec1ac221d2967d51b0e0b8.jpg"
+                        data-sizes="41,42,43,44,45"
+                        onclick="openProductModalFromElement(this)">شراء</button>
+            </div>
+
+            <div class="product-card">
+                <div class="img-wrapper">
+                    <img src="https://i.pinimg.com/736x/8b/3b/99/8b3b99d57d11cb900854b25f0304f90c.jpg" alt="سويت شيرت">
+                </div>
+                <h3 class="product-title">سويت شيرت بياقة سوستة</h3>
+                <div class="product-price">480 ج.م</div>
+                <button class="btn-buy" 
+                        data-title="سويت شيرت بياقة سوستة" 
+                        data-price="480" 
+                        data-image="https://i.pinimg.com/736x/8b/3b/99/8b3b99d57d11cb900854b25f0304f90c.jpg"
+                        data-colors="أبيض,بيج"
+                        data-images="https://i.pinimg.com/736x/8b/3b/99/8b3b99d57d11cb900854b25f0304f90c.jpg"
+                        data-sizes="M,L,XL,XXL"
+                        onclick="openProductModalFromElement(this)">شراء</button>
+            </div>
+
+        </div>
+    </main>
+
+    <div class="product-modal-overlay" id="productModalOverlay" onclick="closeProductModal()"></div>
+    <div class="product-modal" id="productModal">
+        <span class="close-modal" onclick="closeProductModal()">&times;</span>
+        <div class="modal-content">
+            <div class="modal-img">
+                <img id="modalProductImg" src="" alt="منتج">
+            </div>
+            <div class="modal-info">
+                <h2 id="modalProductTitle"></h2>
+                <div class="modal-price" id="modalProductPrice"></div>
+                
+                <div class="option-group">
+                    <label>اللون:</label>
+                    <div class="color-options" id="modalColors"></div>
+                </div>
+
+                <div class="option-group">
+                    <label>المقاس:</label>
+                    <div class="size-options" id="modalSizes"></div>
+                </div>
+
+                <div class="option-group">
+                    <label>الكمية:</label>
+                    <div class="quantity-control">
+                        <button onclick="changeQty(-1)">-</button>
+                        <span id="modalQty">1</span>
+                        <button onclick="changeQty(1)">+</button>
+                    </div>
+                </div>
+
+                <button class="btn-add-modal" onclick="confirmAddToCart()">إضافة إلى السلة</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <aside class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>سلة المشتريات</h2>
+            <span class="close-cart" onclick="toggleCart()">&times;</span>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>الإجمالي:</span>
+                <span id="cartTotal">0 ج.م</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">إتمام الشراء</button>
+        </div>
+    </aside>
+
+    <script src="script.js"></script>
+</body>
+</html>
