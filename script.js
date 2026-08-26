@@ -2,36 +2,66 @@
 let cart = [];
 let currentProduct = null;
 
-// فتح واغلاق Modal المنتج
+// فتح وإغلاق Modal المنتج
 function openProductModalFromElement(btn) {
-  const title = btn.getAttribute('data-title');
-  const price = parseFloat(btn.getAttribute('data-price'));
-  const image = btn.getAttribute('data-image');
-  const colors = btn.getAttribute('data-colors') ? btn.getAttribute('data-colors').split(',') : [];
-  const sizes = btn.getAttribute('data-sizes') ? btn.getAttribute('data-sizes').split(',') : [];
+  const title = btn.getAttribute('data-title') || '';
+  const price = parseFloat(btn.getAttribute('data-price')) || 0;
+  const image = btn.getAttribute('data-image') || '';
+  
+  // تنظيف المصفوفات وإزالة المسافات الزائدة
+  const colors = btn.getAttribute('data-colors') 
+    ? btn.getAttribute('data-colors').split(',').map(v => v.trim()).filter(Boolean)
+    : [];
+  const images = btn.getAttribute('data-images') 
+    ? btn.getAttribute('data-images').split(',').map(v => v.trim()).filter(Boolean)
+    : [];
+  const sizes = btn.getAttribute('data-sizes') 
+    ? btn.getAttribute('data-sizes').split(',').map(v => v.trim()).filter(Boolean)
+    : [];
 
-  currentProduct = { title, price, image, selectedColor: colors[0] || '', selectedSize: sizes[0] || '', qty: 1 };
+  currentProduct = {
+    title,
+    price,
+    image,
+    images,
+    colors,
+    selectedColor: colors[0] || '',
+    selectedSize: sizes[0] || '',
+    qty: 1
+  };
 
   document.getElementById('modalProductTitle').innerText = title;
   document.getElementById('modalProductPrice').innerText = `${price} ج.م`;
   document.getElementById('modalProductImg').src = image;
   document.getElementById('modalQty').innerText = '1';
 
+  // إنشاء أزرار الألوان بأمان عبر DOM Element لمنع مشاكل النصوص
   const colorsContainer = document.getElementById('modalColors');
-  colorsContainer.innerHTML = colors.map((c, i) =>
-    `<button class="opt-btn ${i === 0 ? 'active' : ''}" onclick="selectOption('color', '${c}', this)">${c}</button>`
-  ).join('');
+  colorsContainer.innerHTML = '';
+  colors.forEach((c, index) => {
+    const button = document.createElement('button');
+    button.className = `opt-btn ${index === 0 ? 'active' : ''}`;
+    button.innerText = c;
+    button.onclick = function() { selectOption('color', c, index, this); };
+    colorsContainer.appendChild(button);
+  });
 
+  // إنشاء أزرار المقاسات
   const sizesContainer = document.getElementById('modalSizes');
-  sizesContainer.innerHTML = sizes.map((s, i) =>
-    `<button class="opt-btn ${i === 0 ? 'active' : ''}" onclick="selectOption('size', '${s}', this)">${s}</button>`
-  ).join('');
+  sizesContainer.innerHTML = '';
+  sizes.forEach((s, index) => {
+    const button = document.createElement('button');
+    button.className = `opt-btn ${index === 0 ? 'active' : ''}`;
+    button.innerText = s;
+    button.onclick = function() { selectOption('size', s, index, this); };
+    sizesContainer.appendChild(button);
+  });
 
   const modal = document.getElementById('productModal');
   const overlay = document.getElementById('productModalOverlay');
 
-  modal.classList.add('active');
-  overlay.classList.add('active');
+  if (modal) modal.classList.add('active');
+  if (overlay) overlay.classList.add('active');
 }
 
 function closeProductModal() {
@@ -42,13 +72,29 @@ function closeProductModal() {
   if (overlay) overlay.classList.remove('active');
 }
 
-function selectOption(type, value, btn) {
+function selectOption(type, value, index, btn) {
   const parent = btn.parentElement;
-  parent.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('active'));
+  if (parent) {
+    parent.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('active'));
+  }
   btn.classList.add('active');
 
-  if (type === 'color') currentProduct.selectedColor = value;
-  if (type === 'size') currentProduct.selectedSize = value;
+  if (type === 'color') {
+    currentProduct.selectedColor = value;
+    
+    // التبديل للصورة المقابلة للون مباشرة حسب الـ Index
+    const selectedImage = currentProduct.images[index] || currentProduct.images[0] || currentProduct.image;
+    const productImage = document.getElementById('modalProductImg');
+
+    if (selectedImage && productImage) {
+      currentProduct.image = selectedImage;
+      productImage.src = selectedImage;
+    }
+  }
+
+  if (type === 'size') {
+    currentProduct.selectedSize = value;
+  }
 }
 
 function changeQty(amount) {
@@ -283,53 +329,8 @@ function submitOrderForm(event) {
   showToast('تم تجهيز طلبك بنجاح');
 }
 
-let currentCategory = 'all';
-
-function setCategory(category, btnElement) {
-  // تحديث الزر النشط
-  document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
-  btnElement.classList.add('active');
-
-  currentCategory = category;
-  filterProducts();
-}
-
-function filterProducts() {
-  const searchInput = document.getElementById('searchInput');
-  const productCards = document.querySelectorAll('.product-card');
-  const noResults = document.getElementById('noResults');
-
-  if (!searchInput) return;
-
-  const searchQuery = searchInput.value.toLowerCase().trim();
-  let visibleCount = 0;
-
-  productCards.forEach(card => {
-    const title = card.querySelector('.product-title')?.innerText.toLowerCase() || '';
-    const category = card.getAttribute('data-category');
-
-    const matchesSearch = title.includes(searchQuery);
-    const matchesCategory = (currentCategory === 'all' || category === currentCategory);
-    const shouldShow = matchesSearch && matchesCategory;
-
-    card.style.display = shouldShow ? 'block' : 'none';
-
-    if (shouldShow) visibleCount++;
-  });
-
-  if (noResults) {
-    noResults.style.display = visibleCount === 0 ? 'block' : 'none';
-  }
-}
-
-const searchInput = document.getElementById('searchInput');
-if (searchInput) {
-  searchInput.addEventListener('input', filterProducts);
-}
-
 window.addEventListener('DOMContentLoaded', () => {
   updateCartUI();
-  filterProducts();
 
   const orderForm = document.getElementById('orderForm');
   if (orderForm) {
