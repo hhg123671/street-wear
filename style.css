@@ -39,6 +39,7 @@ header {
     color: #fff;
     font-weight: 900;
     box-shadow: 0 8px 18px rgba(255, 95, 0, 0.35);
+    text-transform: uppercase;
 }
 
 .logo {
