@@ -1,3 +1,7 @@
+<!-- <?php 
+//$con = mysql_connect("localhost" , "root" , "" , "clo");
+?> -->
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -15,7 +19,7 @@
             <ul>
                 <li><a href="#">الرئيسية</a></li>
                 <li><a href="#products">المنتجات</a></li>
-                <li><a href="#offers">العروض</a></li>
+                <li><a href="#offers">العروض</a></li>i>
                 <li><a href="https://wa.me/201064392329" target="_blank">تواصل معنا</a></li>
             </ul>
         </nav>
@@ -30,12 +34,25 @@
         <button class="btn-shop" onclick="location.href='#products'">تسوق الآن</button>
     </section>
 
+    <!-- شريط البحث والتصفية -->
+    <div class="filter-bar">
+        <input type="text" id="searchInput" placeholder="ابحث باسم المنتج..." oninput="filterProducts()">
+        
+        <div class="category-btns">
+            <button class="cat-btn active" onclick="setCategory('all', this)">الكل</button>
+            <button class="cat-btn" onclick="setCategory('tshirts', this)">تيشيرتات</button>
+            <button class="cat-btn" onclick="setCategory('pants', this)">بنطلونات</button>
+            <button class="cat-btn" onclick="setCategory('shoes', this)">أحذية</button>
+            <button class="cat-btn" onclick="setCategory('caps', this)">كابات وإكسسوارات</button>
+        </div>
+    </div>
+
     <!-- قسم العروض والخصومات -->
     <section class="container" id="offers">
         <h2 class="section-title">🔥 أقوى العروض والخصومات</h2>
         <div class="products-grid">
             
-            <div class="product-card offer-card">
+            <div class="product-card offer-card" data-category="shoes">
                 <div class="img-wrapper">
                     <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?w=500" alt="كوتشي سنيكرز">
                 </div>
@@ -53,7 +70,7 @@
                         onclick="openProductModalFromElement(this)">شراء العرض</button>
             </div>
 
-            <div class="product-card offer-card">
+            <div class="product-card offer-card" data-category="caps">
                 <div class="img-wrapper">
                     <img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500" alt="كاب ستريت وير">
                 </div>
@@ -70,7 +87,7 @@
                         onclick="openProductModalFromElement(this)">شراء العرض</button>
             </div>
 
-            <div class="product-card offer-card">
+            <div class="product-card offer-card" data-category="pants">
                 <div class="img-wrapper">
                     <img src="https://i.pinimg.com/736x/62/14/cd/6214cd21f7398385043cb24c0d26e420.jpg" alt="بنطال جينز واسع">
                 </div>
@@ -96,7 +113,7 @@
         <h2 class="section-title">أحدث المنتجات</h2>
         <div class="products-grid">
             
-            <div class="product-card">
+            <div class="product-card" data-category="tshirts">
                 <div class="img-wrapper">
                     <img src="https://i.pinimg.com/736x/f1/68/54/f16854a84c1cf1abedeccc6d6e576078.jpg" alt="تيشيرت أوفر سايز">
                 </div>
@@ -112,7 +129,7 @@
                         onclick="openProductModalFromElement(this)">شراء</button>
             </div>
 
-            <div class="product-card">
+            <div class="product-card" data-category="pants">
                 <div class="img-wrapper">
                     <img src="https://i.pinimg.com/736x/fe/c4/21/fec4211771b904358d416fe5df439f0d.jpg" alt="بنطال كارجو">
                 </div>
@@ -128,7 +145,7 @@
                         onclick="openProductModalFromElement(this)">شراء</button>
             </div>
 
-            <div class="product-card">
+            <div class="product-card" data-category="tshirts">
                 <div class="img-wrapper">
                     <img src="https://i.pinimg.com/736x/65/af/5b/65af5b9622801674770d5d4a783ff7ae.jpg" alt="جاكيت هودي">
                 </div>
@@ -144,7 +161,7 @@
                         onclick="openProductModalFromElement(this)">شراء</button>
             </div>
 
-            <div class="product-card">
+            <div class="product-card" data-category="shoes">
                 <div class="img-wrapper">
                     <img src="https://i.pinimg.com/736x/80/ae/7a/80ae7af894fe767bb29c0143dc91d69f.jpg" alt="كوتشي أبيض">
                 </div>
@@ -160,7 +177,7 @@
                         onclick="openProductModalFromElement(this)">شراء</button>
             </div>
 
-            <div class="product-card">
+            <div class="product-card" data-category="tshirts">
                 <div class="img-wrapper">
                     <img src="https://i.pinimg.com/1200x/a0/53/7e/a0537eadf1e51cc9ddab02a4934a700f.jpg" alt="قميص مشجر">
                 </div>
@@ -176,7 +193,7 @@
                         onclick="openProductModalFromElement(this)">شراء</button>
             </div>
 
-            <div class="product-card">
+            <div class="product-card" data-category="shoes">
                 <div class="img-wrapper">
                     <img src="https://i.pinimg.com/1200x/05/02/c9/0502c919daec1ac221d2967d51b0e0b8.jpg" alt="كوتشي أسود">
                 </div>
@@ -192,7 +209,7 @@
                         onclick="openProductModalFromElement(this)">شراء</button>
             </div>
 
-            <div class="product-card">
+            <div class="product-card" data-category="tshirts">
                 <div class="img-wrapper">
                     <img src="https://i.pinimg.com/736x/8b/3b/99/8b3b99d57d11cb900854b25f0304f90c.jpg" alt="سويت شيرت">
                 </div>
@@ -211,6 +228,7 @@
         </div>
     </main>
 
+    <!-- Modal تفاصيل المنتج -->
     <div class="product-modal-overlay" id="productModalOverlay" onclick="closeProductModal()"></div>
     <div class="product-modal" id="productModal">
         <span class="close-modal" onclick="closeProductModal()">&times;</span>
@@ -245,7 +263,42 @@
             </div>
         </div>
     </div>
+<div id="noResults" style="display: none;">
+  <p>🔍 لا توجد نتائج مطابقة لبحثك.</p>
+</div>
+    <div id="toast" class="toast"></div>
 
+    <div class="order-modal-overlay" id="orderModalOverlay"></div>
+    <div class="order-modal" id="orderModal">
+        <div class="order-header">
+            <h3>إتمام الطلب</h3>
+            <button type="button" class="close-order" id="orderCancel" aria-label="إغلاق">&times;</button>
+        </div>
+
+        <form id="orderForm">
+            <div class="form-group">
+                <label for="customerName">الاسم</label>
+                <input type="text" id="customerName" placeholder="اكتب اسمك" required>
+            </div>
+
+            <div class="form-group">
+                <label for="customerPhone">رقم الهاتف</label>
+                <input type="tel" id="customerPhone" placeholder="05xxxxxxxx" required>
+            </div>
+
+            <div class="form-group">
+                <label for="customerNotes">ملاحظات</label>
+                <textarea id="customerNotes" rows="3" placeholder="أي ملاحظات إضافية؟"></textarea>
+            </div>
+
+            <div class="order-actions">
+                <button type="submit" class="submit-order-btn whatsapp-btn" data-mode="whatsapp">إرسال عبر واتساب</button>
+                <button type="submit" class="submit-order-btn db-btn" data-mode="site">حفظ في صفحة الطلبات</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- السلة الجانبية -->
     <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
     <aside class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
@@ -258,7 +311,7 @@
                 <span>الإجمالي:</span>
                 <span id="cartTotal">0 ج.م</span>
             </div>
-            <button class="checkout-btn" onclick="checkout()">إتمام الشراء</button>
+            <button type="button" class="checkout-btn" onclick="openOrderModal()">إتمام الشراء</button>
         </div>
     </aside>
 
