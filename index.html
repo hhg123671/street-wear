@@ -1,7 +1,3 @@
-<!-- <?php 
-//$con = mysql_connect("localhost" , "root" , "" , "clo");
-?> -->
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
@@ -54,19 +50,6 @@
             <span>⭐ جودة عالية</span>
         </div>
     </section>
-
-    <!-- شريط البحث والتصفية -->
-    <div class="filter-bar">
-        <input type="text" id="searchInput" placeholder="ابحث باسم المنتج..." oninput="filterProducts()">
-
-        <div class="category-btns">
-            <button class="cat-btn active" onclick="setCategory('all', this)">الكل</button>
-            <button class="cat-btn" onclick="setCategory('tshirts', this)">تيشيرتات</button>
-            <button class="cat-btn" onclick="setCategory('pants', this)">بنطلونات</button>
-            <button class="cat-btn" onclick="setCategory('shoes', this)">أحذية</button>
-            <button class="cat-btn" onclick="setCategory('caps', this)">كابات وإكسسوارات</button>
-        </div>
-    </div>
 
     <!-- قسم العروض والخصومات -->
     <section class="container" id="offers">
@@ -161,9 +144,7 @@
                 <div class="product-price">650 ج.م</div>
                 <button class="btn-buy" data-title="جاكيت هودي" data-price="650"
                     data-image="https://i.pinimg.com/736x/65/af/5b/65af5b9622801674770d5d4a783ff7ae.jpg"
-                    data-colors="كحلي,اسود"
-                    data-images="https://i.pinimg.com/1200x/f9/4b/16/f94b16a9bc4bcc717ef04de07d11448a.jpg"
-                    data-sizes="L,XL,XXL" onclick="openProductModalFromElement(this)">شراء</button>
+                    data-colors="اسود" data-sizes="L,XL,XXL" onclick="openProductModalFromElement(this)">شراء</button>
             </div>
 
             <div class="product-card" data-category="shoes">
@@ -214,8 +195,8 @@
                 <div class="product-price">480 ج.م</div>
                 <button class="btn-buy" data-title="سويت شيرت بياقة سوستة" data-price="480"
                     data-image="https://i.pinimg.com/736x/8b/3b/99/8b3b99d57d11cb900854b25f0304f90c.jpg"
-                    data-colors="أبيض,بيج"
-                    data-images="https://i.pinimg.com/736x/8b/3b/99/8b3b99d57d11cb900854b25f0304f90c.jpg"
+                    data-colors="أبيض"
+                    
                     data-sizes="M,L,XL,XXL" onclick="openProductModalFromElement(this)">شراء</button>
             </div>
 
@@ -256,9 +237,6 @@
                 <button class="btn-add-modal" onclick="confirmAddToCart()">إضافة إلى السلة</button>
             </div>
         </div>
-    </div>
-    <div id="noResults" style="display: none;">
-        <p>🔍 لا توجد نتائج مطابقة لبحثك.</p>
     </div>
     <div id="toast" class="toast"></div>
 
