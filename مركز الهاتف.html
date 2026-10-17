@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مركز الهاتف</title>
+<style>
+:root{--bg:#f4f5f9;--fg:#14161f;--mut:#6b7080;--card:#fff;--acc:#5b5bf0;--bd:#dfe1ea;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#07080d;--fg:#eef0f8;--mut:#8b90a5;--card:#12141d;--acc:#8b8bff;--bd:#23263a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#07080d;--fg:#eef0f8;--mut:#8b90a5;--card:#12141d;--acc:#8b8bff;--bd:#23263a;color-scheme:dark}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;display:flex;flex-direction:column;overflow:hidden}
+nav{display:flex;gap:6px;padding:10px;border-bottom:1px solid var(--bd);background:var(--card)}
+nav button{flex:1;padding:11px 4px;border:0;border-radius:12px;background:transparent;color:var(--mut);font:600 15px inherit;font-family:inherit;cursor:pointer}
+nav button.on{background:var(--acc);color:#fff}
+main{flex:1;position:relative;min-height:0}
+section{position:absolute;inset:0;display:none;flex-direction:column}
+section.on{display:flex}
+/* standby */
+#standby{align-items:center;justify-content:center;text-align:center;transition:filter .4s}
+#time{font-size:min(26vw,22vh);font-weight:200;letter-spacing:.02em;font-variant-numeric:tabular-nums;direction:ltr}
+#date{font-size:clamp(18px,4vw,28px);color:var(--mut);margin-top:6px}
+#info{display:flex;gap:18px;margin-top:28px;color:var(--mut);font-size:16px}
+.tools{position:absolute;bottom:14px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:0 10px}
+.tools button,#send,#mic{padding:10px 16px;border:1px solid var(--bd);border-radius:999px;background:var(--card);color:var(--fg);font:14px inherit;font-family:inherit;cursor:pointer}
+/* assistant */
+#log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.m{max-width:85%;padding:10px 14px;border-radius:16px;line-height:1.7;white-space:pre-wrap}
+.m.u{align-self:flex-start;background:var(--acc);color:#fff}
+.m.a{align-self:flex-end;background:var(--card);border:1px solid var(--bd)}
+#bar{display:flex;gap:8px;padding:10px;border-top:1px solid var(--bd);background:var(--card)}
+#q{flex:1;min-width:0;padding:12px 14px;border-radius:999px;border:1px solid var(--bd);background:var(--bg);color:var(--fg);font:16px inherit;font-family:inherit}
+#send{background:var(--acc);color:#fff;border:0}
+#mic.rec{background:#e5484d;color:#fff}
+/* tracker */
+#cv{flex:1;width:100%;touch-action:none;display:block}
+#hud{position:absolute;top:10px;inset-inline:0;text-align:center;color:var(--mut);font-size:14px;pointer-events:none;direction:ltr}
+.hide{display:none!important}
+#lk-setup{display:flex;flex-direction:column;align-items:center;gap:14px;padding:20px;text-align:center}
+#lk-setup h2,#lk-setup p{margin:0}#lk-setup p{color:var(--mut);max-width:420px}
+#link{align-items:center;justify-content:center}
+#code{width:200px;text-align:center;font-size:28px;letter-spacing:.3em;padding:10px;border-radius:14px;border:1px solid var(--bd);background:var(--card);color:var(--fg);direction:ltr}
+.rb{padding:14px 20px;border:0;border-radius:14px;background:var(--acc);color:#fff;font:600 16px inherit;font-family:inherit;margin:4px;cursor:pointer}
+#pad{position:absolute;inset:0;touch-action:none;background:var(--card);display:flex;align-items:center;justify-content:center;color:var(--mut);text-align:center;padding:20px}
+#scr{position:absolute;inset:0;width:100%;height:100%}
+#lclock{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);font-size:min(22vw,24vh);font-weight:200;direction:ltr}
+#lans{position:absolute;bottom:20px;inset-inline:20px;padding:16px;border-radius:16px;background:var(--card);border:1px solid var(--bd);line-height:1.8;white-space:pre-wrap}
+#lst{position:absolute;top:10px;inset-inline-start:14px;color:var(--mut);font-size:14px}
+#ptx{position:absolute;top:10px;inset-inline:10px;display:flex;gap:6px}
+#pTxt{flex:1;min-width:0;padding:12px;border-radius:12px;border:1px solid var(--bd);background:var(--bg);color:var(--fg);font:16px inherit;font-family:inherit}
+#pSend{padding:10px 14px;border:0;border-radius:12px;background:var(--acc);color:#fff;font-family:inherit;cursor:pointer}
+#lbox{position:absolute;top:10px;inset-inline-end:14px;width:min(380px,50vw);display:flex;flex-direction:column;gap:6px}
+.it{display:flex;gap:8px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--card);border:1px solid var(--bd);font-size:14px;word-break:break-all}
+.it span{flex:1}.it button,.it a{padding:6px 10px;border:0;border-radius:8px;background:var(--acc);color:#fff;font:13px inherit;font-family:inherit;text-decoration:none;cursor:pointer}
+</style>
+</head>
+<body>
+<nav>
+  <button data-t="standby" class="on">⏰ ستاند باي</button>
+  <button data-t="ai">🤖 مساعد ذكي</button>
+  <button data-t="track">🖱️ متتبع</button>
+  <button data-t="link">🔗 ربط</button>
+</nav>
+<main>
+  <section id="standby" class="on">
+    <div id="time">--:--</div>
+    <div id="date"></div>
+    <div id="info"><span id="bat"></span><span id="tilt"></span></div>
+    <div class="tools">
+      <button id="fs">ملء الشاشة</button>
+      <button id="wl">إبقاء الشاشة مضاءة: إيقاف</button>
+      <button id="dim">تعتيم</button>
+      <button id="h12">12/24</button>
+    </div>
+  </section>
+
+  <section id="ai">
+    <div id="log"><div class="m a">أهلاً! أنا مساعدك الذكي. اكتب أو اضغط 🎤 وتكلم، وسأرد عليك بالصوت كمان.</div></div>
+    <div id="bar">
+      <button id="mic" title="تحدث">🎤</button>
+      <input id="q" placeholder="اسألني أي شيء..." autocomplete="off">
+      <button id="send">إرسال</button>
+    </div>
+  </section>
+
+  <section id="track">
+    <div id="hud">حرّك الماوس أو المس الشاشة</div>
+    <canvas id="cv"></canvas>
+    <div class="tools"><button id="clr">مسح</button><button id="mode">الوضع: توهج</button></div>
+  </section>
+  <section id="link">
+    <div id="lk-setup">
+      <h2>اربط الهاتف باللاب</h2>
+      <p>افتح نفس الرابط على الجهازين، اكتب نفس الكود، ثم اختر دور كل جهاز.</p>
+      <input id="code" inputmode="numeric" maxlength="4" placeholder="0000">
+      <div><button class="rb" id="rPhone">📱 أنا الهاتف (ريموت)</button><button class="rb" id="rLap">💻 أنا اللاب (الشاشة)</button></div>
+      <div id="lk-st" style="color:var(--mut)"></div>
+    </div>
+    <div id="pad" class="hide">
+      <div id="ptx"><input id="pTxt" placeholder="اكتب نصاً أو رابطاً لترسله للاب"><button id="pSend">📤 إرسال</button></div>
+      <span id="pst">حرّك إصبعك هنا كأنه تراك باد</span>
+      <div class="tools"><button id="pTap">نقرة</button><button id="pSb">ستاند باي على اللاب</button><button id="pAsk">🎤 اسأل المساعد</button><button id="pOff">فصل</button></div>
+    </div>
+    <canvas id="scr" class="hide"></canvas>
+    <div id="lclock" class="hide"></div>
+    <div id="lans" class="hide"></div>
+    <div id="lst" class="hide"></div>
+    <div id="lbox" class="hide"></div>
+  </section>
+</main>
+
+<script>
+const $=s=>document.querySelector(s);
+const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+/* tabs */
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('nav button,section').forEach(e=>e.classList.remove('on'));
+  b.classList.add('on');$('#'+b.dataset.t).classList.add('on');
+  if(b.dataset.t==='track')sizeCv();
+});
+
+/* ---------- Standby ---------- */
+let h12=store.get('h12',false),dimmed=false,wake=null;
+function tick(){
+  const n=new Date();
+  $('#time').textContent=n.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',hour12:h12});
+  $('#date').textContent=n.toLocaleDateString('ar-EG',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+}
+tick();setInterval(tick,1000);
+$('#h12').onclick=()=>{h12=!h12;store.set('h12',h12);tick()};
+$('#dim').onclick=()=>{dimmed=!dimmed;$('#standby').style.filter=dimmed?'brightness(.25)':'none'};
+$('#fs').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+$('#wl').onclick=async()=>{
+  try{
+    if(wake){await wake.release();wake=null}else{wake=await navigator.wakeLock.request('screen');wake.addEventListener('release',()=>{wake=null;$('#wl').textContent='إبقاء الشاشة مضاءة: إيقاف'})}
+    $('#wl').textContent='إبقاء الشاشة مضاءة: '+(wake?'تشغيل':'إيقاف');
+  }catch(e){$('#wl').textContent='غير مدعوم في هذا المتصفح'}
+};
+try{navigator.getBattery().then(b=>{const u=()=>$('#bat').textContent='🔋 '+Math.round(b.level*100)+'%'+(b.charging?' ⚡':'');u();b.onlevelchange=b.onchargingchange=u})}catch(e){}
+window.addEventListener('deviceorientation',e=>{if(e.beta!=null)$('#tilt').textContent='📐 '+Math.round(e.beta)+'°'});
+
+/* ---------- AI assistant ---------- */
+const log=$('#log');let hist=[],busy=false,sample=null;
+claude.use('sample').then(s=>{sample=s}).catch(()=>{});
+function add(cls,t){const d=document.createElement('div');d.className='m '+cls;d.textContent=t;log.appendChild(d);log.scrollTop=log.scrollHeight;return d}
+function speak(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='ar-EG';speechSynthesis.speak(u)}catch(e){}}
+async function ask(text){
+  if(!text||busy)return;
+  add('u',text);hist.push({role:'user',content:text});
+  const out=add('a','...');
+  if(!sample){out.textContent='المساعد الذكي يعمل فقط عند فتح الصفحة من claude.ai وتسجيل الدخول.';return}
+  busy=true;
+  try{
+    const sys='أنت مساعد صوتي ذكي على هاتف المستخدم. أجب بالعربية بإيجاز ووضوح (جملتان إلى أربع) وبلهجة ودودة.\n\n';
+    const input=hist.slice(-10).map((m,i,a)=>i===0?{...m,content:sys+m.content}:m);
+    const r=await sample(input,{cache:false,modelTier:'quick',onText:({text})=>{out.textContent=text;log.scrollTop=log.scrollHeight}});
+    out.textContent=r.text;hist.push({role:'assistant',content:r.text});speak(r.text);
+  }catch(e){out.textContent='تعذر الرد الآن'+(e&&e.code==='rate_limited'?' (طلبات كثيرة، حاول بعد قليل)':'')}
+  busy=false;
+}
+$('#send').onclick=()=>{const v=$('#q').value.trim();$('#q').value='';ask(v)};
+$('#q').onkeydown=e=>{if(e.key==='Enter')$('#send').click()};
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+$('#mic').onclick=()=>{
+  if(!SR){add('a','التعرف على الصوت غير مدعوم في هذا المتصفح، اكتب سؤالك.');return}
+  const r=new SR();r.lang='ar-EG';$('#mic').classList.add('rec');
+  r.onresult=e=>ask(e.results[0][0].transcript);
+  r.onend=r.onerror=()=>$('#mic').classList.remove('rec');
+  try{r.start()}catch(e){}
+};
+
+/* ---------- Pointer tracker ---------- */
+const cv=$('#cv'),cx=cv.getContext('2d');let W=0,H=0,P=[],mx=null,my=null,mode=0;const modes=['توهج','قلم','فقاعات'];
+function sizeCv(){const r=cv.getBoundingClientRect(),d=devicePixelRatio||1;W=r.width;H=r.height;cv.width=W*d;cv.height=H*d;cx.setTransform(d,0,0,d,0,0)}
+addEventListener('resize',sizeCv);sizeCv();
+function move(e){
+  const r=cv.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;
+  $('#hud').textContent='X: '+Math.round(mx)+'   Y: '+Math.round(my);
+  const n=mode===2?3:2;
+  for(let i=0;i<n;i++)P.push({x:mx,y:my,vx:(Math.random()-.5)*(mode===2?3:1.2),vy:(Math.random()-.5)*(mode===2?3:1.2)-(mode===2?1:0),l:1,h:(performance.now()/10)%360});
+}
+cv.addEventListener('pointermove',move);cv.addEventListener('pointerdown',e=>{for(let i=0;i<14;i++)move(e)});
+cv.addEventListener('pointerleave',()=>{mx=null});
+$('#clr').onclick=()=>{P=[];cx.clearRect(0,0,W,H)};
+$('#mode').onclick=()=>{mode=(mode+1)%3;$('#mode').textContent='الوضع: '+modes[mode]};
+function frame(){
+  if($('#track').classList.contains('on')){
+    cx.globalCompositeOperation='source-over';
+    cx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--bg').trim()||'#000';
+    cx.globalAlpha=mode===1?.04:.22;cx.fillRect(0,0,W,H);cx.globalAlpha=1;
+    cx.globalCompositeOperation=matchMedia('(prefers-color-scheme:dark)').matches?'lighter':'source-over';
+    P=P.filter(p=>p.l>0);
+    for(const p of P){
+      p.x+=p.vx;p.y+=p.vy;p.l-=mode===1?.008:.02;
+      cx.beginPath();cx.fillStyle='hsla('+p.h+',90%,60%,'+Math.max(p.l,0)+')';
+      cx.arc(p.x,p.y,(mode===2?10:6)*p.l+1,0,7);
+      if(mode===2){cx.strokeStyle=cx.fillStyle;cx.stroke()}else cx.fill();
+    }
+    if(mx!=null){ /* eyes that follow the pointer */
+      [[W/2-40,H/2],[W/2+40,H/2]].forEach(([ex,ey])=>{
+        const a=Math.atan2(my-ey,mx-ex);cx.globalCompositeOperation='source-over';
+        cx.fillStyle='#fff';cx.beginPath();cx.arc(ex,ey,26,0,7);cx.fill();
+        cx.fillStyle='#111';cx.beginPath();cx.arc(ex+Math.cos(a)*12,ey+Math.sin(a)*12,11,0,7);cx.fill();
+      });
+    }
+  }
+  requestAnimationFrame(frame);
+}
+frame();
+
+/* ---------- Phone <-> Laptop link ---------- */
+let rm=null,role=null,pos={x:.5,y:.5},tgt={x:.5,y:.5},ripples=[],trail=[];
+const sc=$('#scr'),sx=sc.getContext('2d');
+const g=m=>(m&&m.data!==undefined)?m.data:m;
+function sizeSc(){const r=sc.getBoundingClientRect(),d=devicePixelRatio||1;sc.width=r.width*d;sc.height=r.height*d;sx.setTransform(d,0,0,d,0,0)}
+async function pair(r){
+  const code=$('#code').value.trim();
+  if(code.length<4){$('#lk-st').textContent='اكتب كود من 4 أرقام';return}
+  $('#lk-st').textContent='جاري الاتصال...';
+  try{
+    const room=await claude.use('room');
+    if(!room){$('#lk-st').textContent='الربط يعمل فقط عند فتح الصفحة من claude.ai وأنت مسجّل دخول على الجهازين';return}
+    rm=await room.join('pair-'+code);role=r;
+    rm.presence({role:r});
+    const other=r==='phone'?'lap':'phone';
+    rm.onPeers(ps=>{
+      const a=Array.isArray(ps)?ps:Object.values(ps||{});
+      const ok=a.some(p=>((p.state&&p.state.role)||p.role)===other);
+      const t=ok?'✅ متصل بالجهاز الآخر':'⏳ في انتظار الجهاز الآخر...';
+      $('#pst').textContent=ok?t+' — حرّك إصبعك':t;$('#lst').textContent=t;
+    });
+    $('#lk-setup').classList.add('hide');
+    if(r==='phone'){$('#pad').classList.remove('hide')}
+    else{
+      sc.classList.remove('hide');$('#lst').classList.remove('hide');sizeSc();
+      rm.on('mv',m=>{const d=g(m);if(d&&typeof d.x==='number'){tgt={x:d.x,y:d.y}}});
+      rm.on('tap',()=>ripples.push({x:pos.x,y:pos.y,r:0}));
+      rm.on('txt',m=>{const d=g(m);if(d&&d.s)addItem(String(d.s).slice(0,1000))});
+      rm.on('cmd',m=>{const d=g(m);$('#lclock').classList.toggle('hide',!(d&&d.c==='standby'&&d.on))});
+      rm.on('ans',m=>{const d=g(m);if(!d)return;const el=$('#lans');el.textContent='🗣️ '+d.q+'\n\n🤖 '+d.a;el.classList.remove('hide');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.add('hide'),20000);speak(d.a)});
+      setInterval(()=>{$('#lclock').textContent=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',hour12:h12})},1000);
+      lapLoop();
+    }
+  }catch(e){$('#lk-st').textContent='تعذر الاتصال، جرّب مرة أخرى'}
+}
+$('#rPhone').onclick=()=>pair('phone');
+$('#rLap').onclick=()=>pair('lap');
+$('#pOff').onclick=()=>location.reload();
+
+/* phone: trackpad */
+const pad=$('#pad');let lp=null,t0=0,moved=0,sendT=null,sb=false;
+function push(){if(sendT)return;sendT=setTimeout(()=>{sendT=null;rm&&rm.emit('mv',{x:pos.x,y:pos.y})},33)}
+pad.onpointerdown=e=>{if(e.target.closest('.tools,#ptx'))return;lp=[e.clientX,e.clientY];t0=Date.now();moved=0;try{pad.setPointerCapture(e.pointerId)}catch(_){}};
+pad.onpointermove=e=>{
+  if(!lp)return;const r=pad.getBoundingClientRect();
+  const dx=(e.clientX-lp[0])/r.width*1.6,dy=(e.clientY-lp[1])/r.height*1.6;
+  lp=[e.clientX,e.clientY];moved+=Math.abs(dx)+Math.abs(dy);
+  pos.x=Math.min(1,Math.max(0,pos.x+dx));pos.y=Math.min(1,Math.max(0,pos.y+dy));push();
+};
+pad.onpointerup=()=>{if(lp&&moved<.02&&Date.now()-t0<300&&rm)rm.emit('tap',{});lp=null};
+$('#pTap').onclick=()=>rm&&rm.emit('tap',{});
+$('#pSend').onclick=()=>{const v=$('#pTxt').value.trim();if(v&&rm){rm.emit('txt',{s:v});$('#pTxt').value='';$('#pst').textContent='تم الإرسال للاب ✅'}};
+$('#pTxt').onkeydown=e=>{if(e.key==='Enter')$('#pSend').click()};
+function addItem(s){
+  const box=$('#lbox');box.classList.remove('hide');
+  const d=document.createElement('div');d.className='it';
+  const t=document.createElement('span');t.textContent=s;d.append(t);
+  const c=document.createElement('button');c.textContent='نسخ';
+  c.onclick=()=>{try{navigator.clipboard.writeText(s);c.textContent='✓'}catch(e){}};d.append(c);
+  if(/^https?:\/\//i.test(s)){const a=document.createElement('a');a.href=s;a.target='_blank';a.rel='noopener';a.textContent='فتح';d.append(a)}
+  box.prepend(d);while(box.children.length>6)box.lastChild.remove();
+}
+$('#pSb').onclick=()=>{sb=!sb;rm&&rm.emit('cmd',{c:'standby',on:sb});$('#pSb').textContent=sb?'إيقاف الستاند باي':'ستاند باي على اللاب'};
+$('#pAsk').onclick=()=>{
+  if(!SR||!sample){$('#pst').textContent='الصوت أو المساعد غير متاح هنا';return}
+  const r=new SR();r.lang='ar-EG';$('#pst').textContent='🎤 اتكلم...';
+  r.onresult=async e=>{
+    const q=e.results[0][0].transcript;$('#pst').textContent='🤖 بفكر...';
+    try{const o=await sample('أجب بالعربي بإيجاز (جملتين إلى 4): '+q,{cache:false,modelTier:'quick'});
+      rm&&rm.emit('ans',{q,a:o.text});$('#pst').textContent='تم الإرسال للاب ✅'}
+    catch(_){$('#pst').textContent='تعذر الرد'}
+  };
+  r.onerror=()=>{$('#pst').textContent='لم أسمعك، جرّب تاني'};
+  try{r.start()}catch(_){}
+};
+
+/* laptop: draw remote cursor */
+function lapLoop(){
+  const w=sc.getBoundingClientRect().width,h=sc.getBoundingClientRect().height;
+  sx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--bg').trim()||'#000';
+  sx.globalAlpha=.18;sx.fillRect(0,0,w,h);sx.globalAlpha=1;
+  pos.x+=(tgt.x-pos.x)*.35;pos.y+=(tgt.y-pos.y)*.35;
+  const X=pos.x*w,Y=pos.y*h;
+  trail.push({x:X,y:Y,l:1});trail=trail.filter(t=>(t.l-=.04)>0);
+  for(const t of trail){sx.beginPath();sx.fillStyle='hsla(250,90%,65%,'+t.l*.5+')';sx.arc(t.x,t.y,10*t.l,0,7);sx.fill()}
+  ripples=ripples.filter(r=>(r.r+=3)<80);
+  for(const r of ripples){sx.beginPath();sx.strokeStyle='hsla(160,90%,55%,'+(1-r.r/80)+')';sx.lineWidth=3;sx.arc(r.x*w,r.y*h,r.r,0,7);sx.stroke()}
+  sx.fillStyle='#fff';sx.strokeStyle='#111';sx.lineWidth=1.5;sx.beginPath();
+  sx.moveTo(X,Y);sx.lineTo(X,Y+22);sx.lineTo(X+6,Y+17);sx.lineTo(X+11,Y+27);sx.lineTo(X+15,Y+25);sx.lineTo(X+10,Y+16);sx.lineTo(X+17,Y+15);sx.closePath();sx.fill();sx.stroke();
+  requestAnimationFrame(lapLoop);
+}
+addEventListener('resize',()=>{if(role==='lap')sizeSc()});
+</script>
+</body>
+</html>
